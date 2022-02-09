@@ -1,15 +1,10 @@
 package tests;
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
-import java.time.Month;
+import java.io.File;
 
-import static com.codeborne.selenide.Condition.cssClass;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$x;
 
 public class PracticeFormPage {
 
@@ -49,6 +44,34 @@ public class PracticeFormPage {
         return practiceForm().$x(".//*[@class='react-datepicker__month']");
     }
 
+    private SelenideElement subjects() {
+        return practiceForm().$x(".//*[@id='subjectsInput']");
+    }
+
+    private SelenideElement subjectOptions() {
+        return practiceForm().$x(".//*[contains(@class, 'subjects-auto-complete__menu-list')]");
+    }
+
+    private SelenideElement chooseFileButton() {
+        return practiceForm().$x(".//*[@id='uploadPicture']");
+    }
+
+    private SelenideElement addressInput() {
+        return practiceForm().$x(".//*[@id='currentAddress']");
+    }
+
+    private SelenideElement stateInput() {
+        return practiceForm().$x(".//*[@id='react-select-3-input']");
+    }
+
+    private SelenideElement cityInput() {
+        return practiceForm().$x(".//*[@id='react-select-4-input']");
+    }
+
+    private SelenideElement submitButton() {
+        return practiceForm().$x(".//*[@id='submit']");
+    }
+
     public void selectMonth(Integer month) {
         monthsList().selectOptionByValue(month.toString());
     }
@@ -63,6 +86,10 @@ public class PracticeFormPage {
 
     public void selectGender(String gender) {
         practiceForm().$x(".//*[@class='custom-control-label' and contains(.,'"+ gender +"')]").click();
+    }
+
+    public void selectHobby(String hobby) {
+        practiceForm().$x(".//*[@class='custom-control-label' and contains(.,'"+ hobby +"')]").click();
     }
 
     public void printTextToFirstNameInput(String text) {
@@ -84,7 +111,35 @@ public class PracticeFormPage {
         dateOfBirth().click();
     }
 
+    public void inputSubjects(String text) {
+        subjects().sendKeys(text);
+    }
 
+    public void selectSubject(String subject){
+        subjectOptions().$x(".//*[contains(., '"+ subject +"')]").click();
+    }
+
+    public void uploadFile(File file){
+        chooseFileButton().uploadFile(file);
+    }
+
+    public void inputAddress(String text) {
+        addressInput().setValue(text);
+    }
+
+    public void inputState(String state) {
+        stateInput().sendKeys(state);
+        stateInput().pressEnter();
+    }
+
+    public void inputCity(String city) {
+        cityInput().sendKeys(city);
+        cityInput().pressEnter();
+    }
+
+    public void pressSubmitButton() {
+        submitButton().click();
+    }
 
     public void checkRegistrationFormOutput(String firstName, String lastName) {
         //firstNameInput().setValue(text);
