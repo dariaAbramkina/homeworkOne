@@ -3,6 +3,7 @@ package tests;
 import com.codeborne.selenide.SelenideElement;
 
 import java.io.File;
+import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -72,6 +73,18 @@ public class PracticeFormPage {
         return practiceForm().$x(".//*[@id='submit']");
     }
 
+    private SelenideElement table() {
+        return $x("//*[@class='table-responsive']");
+    }
+
+    public List<SelenideElement> tableElements() {
+        return table().$$x(".//tbody/tr");
+    }
+
+    public SelenideElement studentNameValueInSubmitForm() {
+        return tableElements().get(0).$x(".//td[2]");
+    }
+
     public void selectMonth(Integer month) {
         monthsList().selectOptionByValue(month.toString());
     }
@@ -137,9 +150,14 @@ public class PracticeFormPage {
         cityInput().pressEnter();
     }
 
+    public  void scrollToSubmitButton() {
+        submitButton().scrollTo();
+    }
+
     public void pressSubmitButton() {
         submitButton().click();
     }
+
 
     public void checkRegistrationFormOutput(String firstName, String lastName) {
         //firstNameInput().setValue(text);

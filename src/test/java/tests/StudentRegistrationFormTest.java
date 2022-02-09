@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.util.Random;
 
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.open;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class StudentRegistrationFormTest {
     PracticeFormPage page;
@@ -23,13 +24,16 @@ public class StudentRegistrationFormTest {
     @Test
     void successFillTest() {
         File file = new File("src/test/java/resources/homer wfh.gif");
-        page.printTextToFirstNameInput(RandomStringUtils.randomAlphabetic(5));
-        page.printTextToLastNameInput(RandomStringUtils.randomAlphabetic(7));
+        String firstName = RandomStringUtils.randomAlphabetic(5);
+        String lastName = RandomStringUtils.randomAlphabetic(7);
+        String fullName = firstName + " " + lastName;
+        page.printTextToFirstNameInput(firstName);
+        page.printTextToLastNameInput(lastName);
         String email = RandomStringUtils.randomAlphabetic(6) + RandomUtils.nextInt() + "@gmail.com";
         page.inputEmail(email);
         page.selectGender("Female");
         Random generator = new Random(System.currentTimeMillis());
-        Long mobileNumber = Math.abs(generator.nextLong() % 1000000000L);
+        Long mobileNumber = Math.abs(generator.nextLong() % 10000000000L);
         page.inputMobile(mobileNumber);
         page.inputDateOfBirthClick();
         page.selectYear(1993);
@@ -42,7 +46,13 @@ public class StudentRegistrationFormTest {
         page.inputAddress(RandomStringUtils.randomAlphabetic(7));
         page.inputState("Haryana");
         page.inputCity("Panipat");
+        page.scrollToSubmitButton();
         page.pressSubmitButton();
+        assertThat(page.studentNameValueInSubmitForm().getText())
+                .as("")
+                .contains(fullName);
+
+
         page.selectYear(1993);
 
     }
