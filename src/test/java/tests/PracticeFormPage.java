@@ -85,15 +85,51 @@ public class PracticeFormPage {
         return tableElements().get(0).$x(".//td[2]");
     }
 
-    public void selectMonth(Integer month) {
-        monthsList().selectOptionByValue(month.toString());
+    public SelenideElement studentEmailValueInSubmitForm() {
+        return tableElements().get(1).$x(".//td[2]");
     }
 
-    public void selectYear(Integer year) {
-        yearsList().selectOptionByValue(year.toString());
+    public SelenideElement studentGenderValueInSubmitForm() {
+        return tableElements().get(2).$x(".//td[2]");
     }
 
-    public void selectDay(Integer day) {
+    public SelenideElement studentMobileValueInSubmitForm() {
+        return tableElements().get(3).$x(".//td[2]");
+    }
+
+    public SelenideElement studentDateOfBirthValueInSubmitForm() {
+        return tableElements().get(4).$x(".//td[2]");
+    }
+
+    public SelenideElement studentSubjectsValueInSubmitForm() {
+        return tableElements().get(5).$x(".//td[2]");
+    }
+
+    public SelenideElement studentHobbiesValueInSubmitForm() {
+        return tableElements().get(6).$x(".//td[2]");
+    }
+
+    public SelenideElement attachmentNameValueInSubmitForm() {
+        return tableElements().get(7).$x(".//td[2]");
+    }
+
+    public SelenideElement studentAddressValueInSubmitForm() {
+        return tableElements().get(8).$x(".//td[2]");
+    }
+
+    public SelenideElement studentStateAndCityValueInSubmitForm() {
+        return tableElements().get(9).$x(".//td[2]");
+    }
+
+    public void selectMonth(String month) {
+        monthsList().selectOptionByValue(month);
+    }
+
+    public void selectYear(String year) {
+        yearsList().selectOptionByValue(year);
+    }
+
+    public void selectDay(String day) {
         daysList().$x(".//*[contains(@class, 'react-datepicker__day') and contains(., '"+ day +"') and not(contains(@class, 'outside-month'))]").click();
     }
 
@@ -118,7 +154,7 @@ public class PracticeFormPage {
     }
 
     public void inputMobile(Long number) {
-        mobile().setValue("8" + number);
+        mobile().setValue(number.toString());
     }
     public void inputDateOfBirthClick() {
         dateOfBirth().click();
@@ -157,10 +193,4 @@ public class PracticeFormPage {
     public void pressSubmitButton() {
         submitButton().click();
     }
-
-
-    public void checkRegistrationFormOutput(String firstName, String lastName) {
-        //firstNameInput().setValue(text);
-    }
-
 }
