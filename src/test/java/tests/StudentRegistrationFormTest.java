@@ -5,14 +5,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import pages.RegistrationFormPage;
+import utils.TestUtils;
 import java.io.File;
 
-import static com.codeborne.selenide.Selenide.open;
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class StudentRegistrationFormTest {
-    PracticeFormPage page;
+    RegistrationFormPage registrationPage = new RegistrationFormPage();
 
     private static final String MALE = "Male";
     private static final String FEMALE = "Female";
@@ -25,69 +23,60 @@ public class StudentRegistrationFormTest {
     private static final String READING = "Reading";
     private static final String STATE = "Haryana";
     private static final String CITY = "Panipat";
+    private static final String STUDENT_NAME = "Student Name";
+    private static final String STUDENT_EMAIL = "Student Email";
+    private static final String GENDER = "Gender";
+    private static final String MOBILE = "Mobile";
+    private static final String DATE_OF_BIRTH = "Date of Birth";
+    private static final String SUBJECTS = "Subjects";
+    private static final String HOBBIES = "Hobbies";
+    private static final String PICTURE = "Picture";
+    private static final String ADDRESS = "Address";
+    private static final String STATE_AND_CITY = "State and City";
 
     @BeforeEach
     public void setUp() {
+        Configuration.baseUrl = "https://demoqa.com";
         Configuration.browserSize = "1920x1080";
-        page = open("https://demoqa.com/automation-practice-form", PracticeFormPage.class);
     }
 
     @Test
     void successFillTest() {
-        File file = new File("src/test/java/resources/homer wfh.gif");
+        File file = new File("src/test/resources/homer wfh.gif");
         String firstName = RandomStringUtils.randomAlphabetic(5);
         String lastName = RandomStringUtils.randomAlphabetic(7);
         String fullName = firstName + " " + lastName;
-        page.printTextToFirstNameInput(firstName);
-        page.printTextToLastNameInput(lastName);
         String email = RandomStringUtils.randomAlphabetic(6) + RandomUtils.nextInt() + "@gmail.com";
-        page.inputEmail(email);
-        page.selectGender(FEMALE);
         Long mobileNumber = TestUtils.getMobileNumber();
-        page.inputMobile(mobileNumber);
-        page.inputDateOfBirthClick();
-        page.selectYear(YEAR);
-        page.selectMonth(MONTH);
-        page.selectDay(DAY);
-        page.inputSubjects(BIOLOGY);
-        page.selectSubject(BIOLOGY);
-        page.selectHobby(READING);
-        page.uploadFile(file);
         String address = RandomStringUtils.randomAlphabetic(7);
-        page.inputAddress(address);
-        page.inputState(STATE);
-        page.inputCity(CITY);
-        page.scrollToSubmitButton();
-        page.pressSubmitButton();
-        assertThat(page.studentNameValueInSubmitForm().getText())
-                .as("Student name value is equals to %s", fullName)
-                .contains(fullName);
-        assertThat(page.studentEmailValueInSubmitForm().getText())
-                .as("Student email value is equals to %s", email)
-                .contains(email);
-        assertThat(page.studentGenderValueInSubmitForm().getText())
-                .as("Student gender value is equals to %s", FEMALE)
-                .contains(FEMALE);
-        assertThat(page.studentMobileValueInSubmitForm().getText())
-                .as("Student mobileNumber value is equals to %s", mobileNumber)
-                .contains(mobileNumber.toString());
-        assertThat(page.studentDateOfBirthValueInSubmitForm().getText())
-                .as("Student date of birth value is equals to %s %s,%s", DAY, JANUARY, YEAR)
-                .contains(DAY + " " + JANUARY + "," + YEAR);
-        assertThat(page.studentSubjectsValueInSubmitForm().getText())
-                .as("Student subject value is equals to %s", BIOLOGY)
-                .contains(BIOLOGY);
-        assertThat(page.studentHobbiesValueInSubmitForm().getText())
-                .as("Student hobby value is equals to %s", READING)
-                .contains(READING);
-        assertThat(page.attachmentNameValueInSubmitForm().getText())
-                .as("Attachment name value is equals to %s", file.getName())
-                .contains(file.getName());
-        assertThat(page.studentAddressValueInSubmitForm().getText())
-                .as("Student address value is equals to %s", address)
-                .contains(address);
-        assertThat(page.studentStateAndCityValueInSubmitForm().getText())
-                .as("Student state and city value is equals to %s %s", STATE, CITY)
-                .contains(STATE + " " + CITY);
+
+        registrationPage
+            .openPracticeForm()
+            .setFirstName(firstName)
+            .setLastName(lastName)
+            .setEmail(email)
+            .selectGender(FEMALE)
+            .setMobile(mobileNumber)
+            .setBirthDate(MONTH, YEAR, DAY)
+            .setSubject(BIOLOGY)
+            .selectHobby(READING)
+            .uploadFile(file)
+            .setAddress(address)
+            .setState(STATE)
+            .setCity(CITY)
+            .scrollToSubmitButton()
+            .pressSubmitButton();
+
+        registrationPage
+                .checkField(STUDENT_NAME, fullName)
+                .checkField(STUDENT_EMAIL, email)
+                .checkField(GENDER, FEMALE)
+                .checkField(MOBILE, mobileNumber.toString())
+                .checkField(DATE_OF_BIRTH,DAY + " " + JANUARY + "," + YEAR)
+                .checkField(SUBJECTS, BIOLOGY)
+                .checkField(HOBBIES, READING)
+                .checkField(PICTURE, file.getName())
+                .checkField(ADDRESS, address)
+                .checkField(STATE_AND_CITY, STATE + " " + CITY);
     }
 }
