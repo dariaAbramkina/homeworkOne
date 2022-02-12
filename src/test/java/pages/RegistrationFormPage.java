@@ -1,4 +1,4 @@
-package tests;
+package pages;
 
 import com.codeborne.selenide.SelenideElement;
 
@@ -6,8 +6,9 @@ import java.io.File;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.open;
 
-public class PracticeFormPage {
+public class RegistrationFormPage {
 
     private SelenideElement practiceForm() {
         return $x("//*[@class='practice-form-wrapper']");
@@ -77,7 +78,7 @@ public class PracticeFormPage {
         return $x("//*[@class='table-responsive']");
     }
 
-    public List<SelenideElement> tableElements() {
+    private List<SelenideElement> tableElements() {
         return table().$$x(".//tbody/tr");
     }
 
@@ -121,76 +122,101 @@ public class PracticeFormPage {
         return tableElements().get(9).$x(".//td[2]");
     }
 
-    public void selectMonth(String month) {
+    public RegistrationFormPage openPracticeForm(){
+        open("/automation-practice-form");
+        return this;
+    }
+
+    public RegistrationFormPage selectMonth(String month) {
         monthsList().selectOptionByValue(month);
+        return this;
     }
 
-    public void selectYear(String year) {
+    public RegistrationFormPage selectYear(String year) {
         yearsList().selectOptionByValue(year);
+        return this;
     }
 
-    public void selectDay(String day) {
-        daysList().$x(".//*[contains(@class, 'react-datepicker__day') and contains(., '"+ day +"') and not(contains(@class, 'outside-month'))]").click();
+    public RegistrationFormPage selectDay(String day) {
+        daysList().$x(".//*[contains(@class, 'react-datepicker__day') and contains(., '"+ day +"') " +
+                "and not(contains(@class, 'outside-month'))]").click();
+        return this;
     }
 
-    public void selectGender(String gender) {
+    public RegistrationFormPage selectGender(String gender) {
         practiceForm().$x(".//*[@class='custom-control-label' and contains(.,'"+ gender +"')]").click();
+        return this;
     }
 
-    public void selectHobby(String hobby) {
+    public RegistrationFormPage selectHobby(String hobby) {
         practiceForm().$x(".//*[@class='custom-control-label' and contains(.,'"+ hobby +"')]").click();
+        return this;
     }
 
-    public void printTextToFirstNameInput(String text) {
+    public RegistrationFormPage printTextToFirstNameInput(String text) {
         firstNameInput().setValue(text);
+        return this;
     }
 
-    public void printTextToLastNameInput(String text) {
+    public RegistrationFormPage printTextToLastNameInput(String text) {
         lastNameInput().setValue(text);
+        return this;
     }
 
-    public void inputEmail(String text) {
+    public RegistrationFormPage inputEmail(String text) {
         email().setValue(text);
+        return this;
     }
 
-    public void inputMobile(Long number) {
+    public RegistrationFormPage inputMobile(Long number) {
         mobile().setValue(number.toString());
+        return this;
     }
-    public void inputDateOfBirthClick() {
+
+    public RegistrationFormPage inputDateOfBirthClick() {
         dateOfBirth().click();
+        return this;
     }
 
-    public void inputSubjects(String text) {
-        subjects().sendKeys(text);
+    public RegistrationFormPage inputSubjects(String text) {
+        subjects().setValue(text);
+        return this;
     }
 
-    public void selectSubject(String subject){
+    public RegistrationFormPage selectSubject(String subject){
         subjectOptions().$x(".//*[contains(., '"+ subject +"')]").click();
+        return this;
     }
 
-    public void uploadFile(File file){
+    public RegistrationFormPage uploadFile(File file){
         chooseFileButton().uploadFile(file);
+        return this;
     }
 
-    public void inputAddress(String text) {
+    public RegistrationFormPage inputAddress(String text) {
         addressInput().setValue(text);
+        return this;
     }
 
-    public void inputState(String state) {
-        stateInput().sendKeys(state);
+    public RegistrationFormPage inputState(String state) {
+        stateInput().setValue(state);
         stateInput().pressEnter();
+        return this;
     }
 
-    public void inputCity(String city) {
-        cityInput().sendKeys(city);
+    public RegistrationFormPage inputCity(String city) {
+        cityInput().setValue(city);
         cityInput().pressEnter();
+        return this;
     }
 
-    public  void scrollToSubmitButton() {
+    public RegistrationFormPage scrollToSubmitButton() {
         submitButton().scrollTo();
+        return this;
     }
 
-    public void pressSubmitButton() {
+    public RegistrationFormPage pressSubmitButton() {
         submitButton().click();
+        return this;
     }
 }
