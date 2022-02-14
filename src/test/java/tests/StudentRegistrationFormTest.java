@@ -34,7 +34,7 @@ public class StudentRegistrationFormTest {
 
     @Test
     void successFillTest() {
-        File file = new File("src/test/java/resources/homer wfh.gif");
+        File file = new File("src/test/resources/homer wfh.gif");
         String firstName = RandomStringUtils.randomAlphabetic(5);
         String lastName = RandomStringUtils.randomAlphabetic(7);
         String fullName = firstName + " " + lastName;
