@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import pages.RegistrationFormPage;
 import utils.TestUtils;
 import java.io.File;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class StudentRegistrationFormTest {
     RegistrationFormPage registrationPage = new RegistrationFormPage();
@@ -24,6 +23,16 @@ public class StudentRegistrationFormTest {
     private static final String READING = "Reading";
     private static final String STATE = "Haryana";
     private static final String CITY = "Panipat";
+    private static final String STUDENT_NAME = "Student Name";
+    private static final String STUDENT_EMAIL = "Student Email";
+    private static final String GENDER = "Gender";
+    private static final String MOBILE = "Mobile";
+    private static final String DATE_OF_BIRTH = "Date of Birth";
+    private static final String SUBJECTS = "Subjects";
+    private static final String HOBBIES = "Hobbies";
+    private static final String PICTURE = "Picture";
+    private static final String ADDRESS = "Address";
+    private static final String STATE_AND_CITY = "State and City";
 
     @BeforeEach
     public void setUp() {
@@ -43,54 +52,31 @@ public class StudentRegistrationFormTest {
 
         registrationPage
             .openPracticeForm()
-            .printTextToFirstNameInput(firstName)
-            .printTextToLastNameInput(lastName)
-            .inputEmail(email)
+            .setFirstName(firstName)
+            .setLastName(lastName)
+            .setEmail(email)
             .selectGender(FEMALE)
-            .inputMobile(mobileNumber)
-            .inputDateOfBirthClick()
-            .selectYear(YEAR)
-            .selectMonth(MONTH)
-            .selectDay(DAY)
-            .inputSubjects(BIOLOGY)
-            .selectSubject(BIOLOGY)
+            .setMobile(mobileNumber)
+            .setBirthDate(MONTH, YEAR, DAY)
+            .setSubject(BIOLOGY)
             .selectHobby(READING)
             .uploadFile(file)
-            .inputAddress(address)
-            .inputState(STATE)
-            .inputCity(CITY)
+            .setAddress(address)
+            .setState(STATE)
+            .setCity(CITY)
             .scrollToSubmitButton()
             .pressSubmitButton();
 
-        assertThat(registrationPage.studentNameValueInSubmitForm().getText())
-                .as("Student name value is equals to %s", fullName)
-                .contains(fullName);
-        assertThat(registrationPage.studentEmailValueInSubmitForm().getText())
-                .as("Student email value is equals to %s", email)
-                .contains(email);
-        assertThat(registrationPage.studentGenderValueInSubmitForm().getText())
-                .as("Student gender value is equals to %s", FEMALE)
-                .contains(FEMALE);
-        assertThat(registrationPage.studentMobileValueInSubmitForm().getText())
-                .as("Student mobileNumber value is equals to %s", mobileNumber)
-                .contains(mobileNumber.toString());
-        assertThat(registrationPage.studentDateOfBirthValueInSubmitForm().getText())
-                .as("Student date of birth value is equals to %s %s,%s", DAY, JANUARY, YEAR)
-                .contains(DAY + " " + JANUARY + "," + YEAR);
-        assertThat(registrationPage.studentSubjectsValueInSubmitForm().getText())
-                .as("Student subject value is equals to %s", BIOLOGY)
-                .contains(BIOLOGY);
-        assertThat(registrationPage.studentHobbiesValueInSubmitForm().getText())
-                .as("Student hobby value is equals to %s", READING)
-                .contains(READING);
-        assertThat(registrationPage.attachmentNameValueInSubmitForm().getText())
-                .as("Attachment name value is equals to %s", file.getName())
-                .contains(file.getName());
-        assertThat(registrationPage.studentAddressValueInSubmitForm().getText())
-                .as("Student address value is equals to %s", address)
-                .contains(address);
-        assertThat(registrationPage.studentStateAndCityValueInSubmitForm().getText())
-                .as("Student state and city value is equals to %s %s", STATE, CITY)
-                .contains(STATE + " " + CITY);
+        registrationPage
+                .checkField(STUDENT_NAME, fullName)
+                .checkField(STUDENT_EMAIL, email)
+                .checkField(GENDER, FEMALE)
+                .checkField(MOBILE, mobileNumber.toString())
+                .checkField(DATE_OF_BIRTH,DAY + " " + JANUARY + "," + YEAR)
+                .checkField(SUBJECTS, BIOLOGY)
+                .checkField(HOBBIES, READING)
+                .checkField(PICTURE, file.getName())
+                .checkField(ADDRESS, address)
+                .checkField(STATE_AND_CITY, STATE + " " + CITY);
     }
 }
